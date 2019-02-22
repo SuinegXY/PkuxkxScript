@@ -1028,12 +1028,13 @@ function Room:Description_trigger(n,l,w)
 				local omit_exits7=string.find(desc,"这里唯一的方向是")
 				local omit_exits8=string.find(desc,"这里明显的方向有")
 				local omit_exits9=string.find(desc,"这里唯一的方向有")
+				local omit_exits10=string.find(desc,"你可以看看%(look%)");
 				local omit_page=string.find(desc,"未完继续")
 				local omit_weather=string.find(desc,"」:")
 				local omit_item=string.match(desc,"%s+.*%(.*%)$")
 				local omit_item2=string.find(desc,"系统回馈")
 				
-				if omit_page~=nil or omit_exits1~=nil or omit_exits2~=nil or omit_exits3~=nil or omit_exits4~=nil or omit_exits5~=nil or omit_exits6~=nil or omit_exits7~=nil or omit_exits8~=nil or omit_exits9~=nil or omit_weather~=nil or omit_item~=nil or omit_item2~=nil then
+				if omit_page~=nil or omit_exits1~=nil or omit_exits2~=nil or omit_exits3~=nil or omit_exits4~=nil or omit_exits5~=nil or omit_exits6~=nil or omit_exits7~=nil or omit_exits8~=nil or omit_exits9~=nil or omit_exits10~=nil or omit_weather~=nil or omit_item~=nil or omit_item2~=nil then
 								desc=""
 				end
 				
@@ -1044,6 +1045,9 @@ function Room:Description_trigger(n,l,w)
 				for k,v in pairs(WeatherDesc) do
 					R.description=string.gsub(R.description,Trim(v),"")
 				end
+				--Note("1" .. R.description);
+				--R.description = string.gsub(R.description,"你可以看看\(look\):<node>","");
+				--Note("2" .. R.description);
 
 			Room.description=R.description
 			---print(R.description)

@@ -44,9 +44,9 @@ QuestOver.tID["14"] = "pozhen";
 QuestOver.tID["15"] = "tianzhu";
 --QuestOver.tID["19"] = "yujie";
 
-Common.CreateTrigger("QO1", "^│\\[(\\d+)\\]\\[主\\].*仍需(\\S+)分(\\S+)秒才能接到下个.*任务。.*$", 'QuestOver.SetTime(QuestOver.tID["%1"], "%2", "%3")', 12, "questTime", 0, 0, nil, 0, 94);
-Common.CreateTrigger("QO2", "^│\\[(\\d+)\\]\\[主\\].*仍需(\\S+)秒才能接到下个.*任务。.*$", 'QuestOver.SetTime(QuestOver.tID["%1"], "0", "%2")', 12, "questTime", 0, 0, nil, 0, 95);
-Common.CreateTrigger("QO3", "^│\\[(\\d+)\\]\\[主\\].*现在即可接到下个.*任务。.*$", 'QuestOver.SetTime(QuestOver.tID["%1"], "0", "0")', 12, "questTime", 0);
+Common.CreateTrigger("QO1", "^│\\[(\\d+)\\]│\\[主\\].*仍需(\\S+)分(\\S+)秒才能接到下个.*任务。.*$", 'QuestOver.SetTime(QuestOver.tID["%1"], "%2", "%3")', 12, "questTime", 0, 0, nil, 0, 94);
+Common.CreateTrigger("QO2", "^│\\[(\\d+)\\]│\\[主\\].*仍需(\\S+)秒才能接到下个.*任务。.*$", 'QuestOver.SetTime(QuestOver.tID["%1"], "0", "%2")', 12, "questTime", 0, 0, nil, 0, 95);
+Common.CreateTrigger("QO3", "^│\\[(\\d+)\\]│\\[主\\].*现在即可接到下个.*任务。.*$", 'QuestOver.SetTime(QuestOver.tID["%1"], "0", "0")', 12, "questTime", 0);
 
 QuestOver.Check = function()
 	Common.InstanceRun(QuestOver.CheckAction);
@@ -281,6 +281,7 @@ QuestOver.MZJ = function()
 		DoAfterSpecial(2, 'QuestOver.Check()', 12);
 	elseif GetVariable("TZ_GSZ") == "0" then
 		Execute("EGA mzj");
+		DoAfterSpecial(2, 'SendNoEcho("l")', 12);
 	end
 end
 
