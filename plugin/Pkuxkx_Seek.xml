@@ -137,6 +137,7 @@ if blnpc ~= nil and "@find_npc" ~= "完成" then
   SetVariable("find_room", "完成") 
   Execute("follow "..string.lower("%2"))
   Simulate("\\n提示信息：找到目标！\\n")
+  SendNoEcho("unset brief");
   Execute("lanluon")
 end</send>
   </trigger>
@@ -266,9 +267,11 @@ require "wait"
 wait.make( function()
 if "@find_npc" == "完成" then
   EnableGroup ("遍历",0)
+  SendNoEcho("unset brief");
 elseif tonumber(GetVariable("path_bushu")) &gt;= tonumber(#path) then
   EnableGroup ("遍历",0)
   Execute("lanluon")
+  SendNoEcho("unset brief");
   Simulate("\\n提示信息：未找到目标！\\n")
   print("挖地三尺都没找到嫌疑人，去周边城市碰碰运气吧。")
   SendNoEcho("response BL_NO_FIND 0");
@@ -594,9 +597,11 @@ if "%1" == "off" then
   EnableTimer("bianli_time", 0) 
   EnableGroup("遍历",0)
   print("已终止遍历。")
+  SendNoEcho("unset brief");
   Execute("lanluon")  
 elseif area == nil then
   Execute("lanluon")
+  SendNoEcho("unset brief");
   print("骚年：这里是地球，无法查询火星路径。")
 else
   SetVariable("path_map", GetVariable("path_"..area))
@@ -604,7 +609,7 @@ else
   SetVariable ("find_npc", "")
   EnableGroup("遍历",1)
   Execute("lanluoff")
-  Execute ("unset brief;look")
+  Execute ("set brief 2;look")
 end</send>
   </alias>
   <alias
@@ -720,7 +725,7 @@ end</send>
   <variable name="path_luoyang">s|s|s|s|s|s|s|ne|ne|nw|nw|ne|ne|ne|n|s|sw|nw|ne|sw|w|w|w|w|wu|wd|w|n|ne|n|open door;n|e|n|s|s|n|w|w|open door;n|n|n|s|s|nw|w|w|n|nu|nd|n|n|nu|w|nw|se|e|e|w|sd|s|s|su|sd|s|w|e|s|e|w|w|u|u|u|w|look west|e|d|d|d|e|s|e|ne|sw|n|enter|out|s|s|n|e|s|sw|n|s|ne|s|e|n|e|e|knock guancai 3;ed|s|s|s|w|e|n|n|n|n|w|e|e|w|s|s|s|s|w|n|n|e|n|s|wu|w|w|s|w|w|s|n|unwield all;n|n|w|w|e|e|e|se|w|w|w|w|e|e|s|w|s|n|n|e|w|n|w|e|e|look east|w|s|w|w|n|n|n|enter|out|s|w|n|look north|s|s|w|e|e|s|s|s|n|w|s|n|n|n|w|n|s|s|w|e|sw|ne|s|n|se|nw|e|w|n|wu|w|w|w|w|w|nw|w|e|s|n|se|e|e|e|e|e|ed|e|s|s|w|nw|nw|nw|n|n|w|e|e|w|n|w|e|e|w|n|w|w|e|e|e|e|w|w|n|e|e|w|w|nd|ne|ne|sw|sw|nw|nw|se|se|su|w|w|s|n|w|jiali max;break south;s|n|break north;n;jiali none|s|e|climb tree|climb shucha|</variable>
   <variable name="path_hhbw">e|ne|ne|w|w|e|e|ne|ne|ne|s|n|ne|nw|se|ne|ne|ne|ne|n|s|se|w|e|se|s|sw|s|s|se|se|se|n|ne|sw|s|s|e|se|ne|nw|se|sw|e|e|ne|</variable>
   <variable name="path_pingxiwang">ask qin bingtou about 自立为王;n|w|e|e|w|n|n|n|n|w|n|s|e|e|w|n|n|w|e|e|w;killall bao biao|stop|n|n|n|s|s|s|halt;s|s|s|s|s|s|s|s|s|s|s|s|s|w|e|e|w|n|n|n|n|n|n|</variable>
-  <variable name="path_xihu">n|s|sw|sw|s|se|sw|ne|ne|ne|ne|n|sw|sw|w|s|se|s|se|e|ne|nw|n|s|se|e|w|sw|w|nw|n|e|enter boat|w|w|w|w|w|w|w|n|s|w|w|n|s|w|n|w|s|w|e|s|e|n|e|s|n|e|e|s|n|e|e|e|e|enter boat|w|nw|n|e|ne|ne|</variable>
+  <variable name="path_xihu">e|e|w|w|n|s|sw|sw|s|se|sw|ne|ne|ne|ne|n|sw|sw|w|s|se|s|se|e|ne|nw|n|s|se|e|w|sw|w|nw|n|e|enter boat|w|w|w|w|w|w|w|n|s|w|w|n|s|w|n|w|s|w|e|s|e|n|e|s|n|e|e|s|n|e|e|e|e|enter boat|w|nw|n|e|ne|ne|</variable>
   <variable name="path_wls">s|sd|ed|nw|n|s|nu|nu|nu|climb stiff|stop|wait|climb yafeng|s|n|e|se|sw|s|n|sw|sw|sw|look west|s|e|n|w|n|w|e|s|ne|ne|ne|s|push stone;s|e|ed|ed|push men;e|n|s|e|w|s|out|guo qiao|s|se|wu|nu|n|</variable>
   <variable name="path_taohuadao">n|n|nu|nu|nu|e|n|n|e|e|w|w|s|e|e|w|s|s|w|nw|n|n|n|n|e|e|e|n|w|e|s|s|look east|look south|look west|n|w|w|w|w|nu|ed|wu|sd|wu|eu|wd|ed|e|s|s|s|s|sd|sd|sd|s|s|</variable>
   <variable name="path_huangzhong">nw|w|wd|wd|n|s|eu|eu|e|s|e|s|s|s|n|n|n|e|n|n|e|e|e|se|se|se|se|nw|nw|e|w|nw|nw|w|w|w|n|e|s|n|e|s|n|n|n|l enter|s|w|n|n|w|s|s|n|n|n|e|enter|out|w|ne|ne|n|ne|n|n|</variable>
