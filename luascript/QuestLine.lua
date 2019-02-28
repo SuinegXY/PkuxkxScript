@@ -280,6 +280,7 @@ QuestOver.MZJ = function()
 		QuestOver.QuestOver();
 		DoAfterSpecial(2, 'QuestOver.Check()', 12);
 	elseif GetVariable("TZ_GSZ") == "0" then
+		DoAfterSpecial(2, 'EnableTimer("quest_look", true)', 12);
 		Execute("EGA mzj");
 		Execute("MZJA");
 	end

@@ -458,6 +458,7 @@ MZJ.bStartBL = false;
 MZJ.bOnce = false;
 MZJ.bAskFail = false;
 MZJ.bRecode = false;
+MZJ.bZhanbu = false;
 
 Common.CreateAlias("alias_mzj", "^MZJ([AB]{1})$", 'MZJ.Trigger("%1")', 12, "triggers");
 Common.CreateAlias("alias_mzjfail", "^MZJF$", 'MZJ.Fail()', 12, "mzj", 0);
@@ -473,7 +474,7 @@ Common.CreateTrigger("mzj_code1", "^孟之经\\(meng zhijing\\)告诉你：第一个字在：
 Common.CreateTrigger("mzj_code2", "^孟之经\\(meng zhijing\\)告诉你：第一个字在：第(\\S{2,4})行，第(\\S{2,4})列。第二个字在：第(\\S{2,4})行，第(\\S{2,4})列。第三个字在：第(\\S{2,4})行，第(\\S{2,4})列。对照\\(duizhao\\)这页，你就知道你要刺杀的人在哪了。$", 'MZJ.Code("%1", "%2", "%3", "%4", "%5", "%6")', 12, "mzj", 0);
 Common.CreateTrigger("mzj_code3", "^孟之经\\(meng zhijing\\)告诉你：第一个字在：第(\\S{2,4})行，第(\\S{2,4})列。第二个字在：第(\\S{2,4})行，第(\\S{2,4})列。第三个字在：第(\\S{2,4})行，第(\\S{2,4})列。第四个字在：第(\\S{2,4})行，第(\\S{2,4})列。对照\\(duizhao\\)这页，你就知道你要刺杀的人在哪了。$", 'MZJ.Code("%1", "%2", "%3", "%4", "%5", "%6", "%7", "%8")', 12, "mzj", 0);
 Common.CreateTrigger("mzj_code4", "^孟之经\\(meng zhijing\\)告诉你：第一个字在：第(\\S{2,4})行，第(\\S{2,4})列。第二个字在：第(\\S{2,4})行，第(\\S{2,4})列。第三个字在：第(\\S{2,4})行，第(\\S{2,4})列。第四个字在：第(\\S{2,4})行，第(\\S{2,4})列。第五个字在：第(\\S{2,4})行，第(\\S{2,4})列。对照\\(duizhao\\)这页，你就知道你要刺杀的人在哪了。$", 'MZJ.Code("%1", "%2", "%3", "%4", "%5", "%6", "%7", "%8", "%9", "%<10>")', 12, "mzj", 0);
-Common.CreateTrigger("mzj_wait", "^你向孟之经打听有关『job』的消息。\\n孟之经说道：「这里人多眼杂，你先到(\\S+)等候，我自会通知你。」$", 'MZJ.Wait("%1")', 12, "mzj", 0, false, 2);
+Common.CreateTrigger("mzj_wait", "^你向孟之经打听有关『job』的消息。\\n孟之经说道：「这里人多眼杂，你先到(\\S+)等候，我自会通知你。」$", 'MZJ.Wait("%1");MZJ.bZhanbu = true', 12, "mzj", 0, false, 2);
 Common.CreateTrigger("mzj_wait2", "^孟之经\\(meng zhijing\\)告诉你：叫你到(\\S+)等候，你还慢腾腾地闲逛，赶紧点。$", 'MZJ.Wait("%1")', 12, "mzj", 0, false, 2);
 Common.CreateTrigger("mzj_init", "^    大宋 建康都统制府赞划 孟之经\\(Meng zhijing\\) \\[任务发放\\]$", 'SendNoEcho("ask meng about job")', 12, "mzj", 0);
 Common.CreateTrigger("mzj_cantfind", "^系统回馈：BL_NO_FIND = 0$", 'MZJ.Fail()', 12, "mzj", 0);
@@ -498,6 +499,7 @@ MZJ.Init = function()
 	MZJ.bOnce = false;
 	MZJ.bAskFail = false;
 	MZJ.bRecode = false;
+	MZJ.bZhanbu = false;
 	Common_StatusClear();
 	Battle.bPerform = true;
 	Battle.SetEscape(true);
@@ -520,8 +522,6 @@ MZJ.Complate = function()
 			SendNoEcho("ask meng about finish");
 		end
 		DoAfterSpecial(1, 'SendNoEcho("drop zhi")', 12);
-	else
-		DoAfterSpecial(2, 'SendNoEcho("l")', 12);
 	end
 end
 
@@ -669,6 +669,9 @@ MZJ.BL = function()
 	if MZJ.bStartBL == true then
 		DoAfterSpecial(3, "Way.TryBl()", 12);
 		MZJ.bOnce = ture;
+	elseif MZJ.bZhanbu == true then
+		SendNoEcho("zhanbu -myself");
+		MZJ.bZhanbu = false;
 	end
 end
 
