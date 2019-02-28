@@ -225,6 +225,7 @@ end)</send>
   >
   <send>path_bushu = GetVariable("path_bushu")
 SetVariable ("path_bushu",path_bushu - 1)
+SendNoEcho("response WALK_BL " .. path[tonumber(path_bushu-1));
 print("水浸~~水浸~~等待几秒后，自行输入命令jixubl继续前行。")</send>
   </trigger>
   <trigger

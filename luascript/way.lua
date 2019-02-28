@@ -9,6 +9,8 @@ Way.bZjc = false;
 Way.strPlace = "";
 Way.strArea = "";
 Way.nFaDaiTime = 0;
+Way.bWalk = false;
+Way.strBLStep = "";
 
 Common.CreateAlias("way_next", "^W (\\S+)$", 'Way.Roll("%1")', 12, "way");
 Common.CreateAlias("way_goto", "^GT (\\S+)$", 'Way.Goto("%1")', 12, "way");
@@ -23,10 +25,38 @@ Common.CreateTrigger("way_place", "^(\\S+) - .*$", 'Way.SetPlace("%1")', 12, "wa
 Common.CreateTrigger("way_area", "^【(.*)】$", 'Way.strArea = "%1"', 12, "way", 1);
 Common.CreateTrigger("way_ry_lou", "^你身上背的东西太多，竹篓负担不下。$", 'Common.InstanceRun(Way.EnterRyLou, 4)', 12, "way", 1);
 Common.CreateTimerFunc("way_fadai_timer", 0, 1, "Way.FadaiTimer()", 0, "way");
+Common.CreateTrigger("way_walk_start", '^系统回馈：WALK = START$', 'Way.SetWalkStatus(true)', 12, "way", 1, true);
+Common.CreateTrigger("way_walk_over", '^系统回馈：WALK = OVER$', 'Way.SetWalkStatus(false)', 12, "way", 1, true);
+Common.CreateTrigger("way_walk_over", '^系统回馈：WALK_BL = (.*)$', 'Way.WalkBL("%1")', 12, "way", 1, true);
+DeleteTrigger("way_walk_OVER");
+
 
 Way.SetPlace = function(strPlace)
 	Way.strPlace = strPlace;
 	Way.nFaDaiTime = 0;
+	DeleteTimer("way_walk_continue");
+	Common.CreateTimer("way_walk_continue", 0, 10, "Way.WalkContinue", true);
+	DeleteTimer("way_walk_continue_bl");
+end
+
+Way.SetWalkStatus = function(bStatus)
+	Way.bWalk = bStatus;
+end
+
+Way.WalkContinue = function()
+	if Way.bWalk == true and string.find(Way.strPlace, "船") == nil then
+		Execute("wkc");
+	end
+	DeleteTimer("way_walk_continue");
+end
+
+Way.WalkBL = function(strStep)
+	Way.strBLStep = strStep;
+	Common.CreateTimer("way_walk_continue_bl", 0, 10, "Way.WalkContinueBL", true);
+end
+
+Way.WalkContinueBL = function()
+	Send(Way.strBLStep);
 end
 
 Way.ChangePlaceCheck = function()

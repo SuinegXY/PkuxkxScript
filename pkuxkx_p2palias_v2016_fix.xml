@@ -1037,6 +1037,9 @@ function Room:Description_trigger(n,l,w)
 				if omit_page~=nil or omit_exits1~=nil or omit_exits2~=nil or omit_exits3~=nil or omit_exits4~=nil or omit_exits5~=nil or omit_exits6~=nil or omit_exits7~=nil or omit_exits8~=nil or omit_exits9~=nil or omit_exits10~=nil or omit_weather~=nil or omit_item~=nil or omit_item2~=nil then
 								desc=""
 				end
+
+				
+				desc = Replace(desc, " ", "", ture);
 				
 				R.description=R.description .. Trim(desc)
 				if weatherline~=nil and weatherline~="" then
@@ -2816,7 +2819,7 @@ walkgo["main"]=function()
 	if fullpath_str==nil or fullpath_str==" " or fullpath_str=="l" or fullpath_str=="look" then
 		walk_time=0.1
 		print("[:walk:]::ERROR::没有搜索到相应路线。")
-		run("response no_more walkend")
+		SendNoEcho("response no_more walkend")
 									--SendNoEcho("unset no_more");
 		SetEchoInput(true)
 		return
@@ -2835,9 +2838,8 @@ walkgo["main"]=function()
 	if fullpath_str~=nil then
 		print("当前行走步数："..fullpath_steps)
 		print("路线为::>>"..fullpath_str.."<<::")
-		
 		if path_flag==0 then
-
+			SendNoEcho("response WALK START");
 			SetEchoInput(false)
 			call(walkgo.cmd)
 		end
@@ -2881,6 +2883,7 @@ walkgo["stepcmd"]=function()
 		EnableTriggerGroup("boat",0)
 		print("完成行走！！")
 		SendNoEcho("response WALK_FINISH 0");
+		SendNoEcho("response WALK OVER");
 		if fullnodename==nil or fullnodename=="" then print("目的节点为新节点，请录入") else print("目的节点为已知节点:"..fullzone..fullnodename) end
 
 		run("response no_more walkend")
@@ -2913,6 +2916,7 @@ walkgo["stepcmd"]=function()
 			fullpath_str=""
 			EnableTriggerGroup("boat",0)
 			print("完成行走！！")
+			SendNoEcho("response WALK OVER");
 			SendNoEcho("response WALK_FINISH 0");
 			if fullnodename==nil or fullnodename=="" then print("目的节点为新节点，请录入") else print("目的节点为已知节点:"..fullzone..fullnodename) end
 
