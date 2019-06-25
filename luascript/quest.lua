@@ -480,6 +480,7 @@ Common.CreateTrigger("mzj_init", "^    大宋 建康都统制府赞划 孟之经\\(Meng zhiji
 Common.CreateTrigger("mzj_cantfind", "^系统回馈：BL_NO_FIND = 0$", 'MZJ.Fail()', 12, "mzj", 0);
 Common.CreateTrigger("mzj_blstart", "^系统回馈：WALK_FINISH = 0$", 'MZJ.BL();', 12, "mzj", 0);
 Common.CreateTrigger("mzj_start", "^你背着众人，悄悄地打开了旧纸。$", 'MZJ.StartRecode()', 12, "mzj", 0);
+Common.CreateTrigger("mzj_pic_query", "^对照\\(duizhao\\)此页，你就知道你要刺杀的人在哪了。$", 'MZJ.PicQuest()', 12, "mzj", 0);
 --Common.CreateTrigger("mzj_over", "^.*$", 'MZJ.StopRecode()', 12, "mzj", 0);
 DeleteTrigger("mzj_over");
 
@@ -552,6 +553,14 @@ MZJ.Wait = function(strPlace)
 	SetVariable("Q_misc2", MZJ.strWaitID);
 	--Note("MZJ测试:" .. MZJ.strWaitID);
 	QuestOver.QuestStart();
+end
+
+MZJ.PicQuest = function()
+	if GetVariable("PIC_MZJ") == "0" then
+		Execute("MZJF");
+	else
+		Common.ShowCommand("MZJ ", true);
+	end
 end
 
 MZJ.Pic = function(strParam)
