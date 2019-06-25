@@ -27,8 +27,8 @@ Common.CreateTrigger("way_ry_lou", "^你身上背的东西太多，竹篓负担不下。$", 'Comm
 Common.CreateTimerFunc("way_fadai_timer", 0, 1, "Way.FadaiTimer()", 0, "way");
 Common.CreateTrigger("way_walk_start", '^系统回馈：WALK = START$', 'Way.SetWalkStatus(true)', 12, "way", 1, true);
 Common.CreateTrigger("way_walk_over", '^系统回馈：WALK = OVER$', 'Way.SetWalkStatus(false)', 12, "way", 1, true);
-Common.CreateTrigger("way_walk_over", '^系统回馈：WALK_BL = (.*)$', 'Way.WalkBL("%1")', 12, "way", 1, true);
-DeleteTrigger("way_walk_OVER");
+Common.CreateTrigger("way_walk_bl", '^系统回馈：WALK_BL = (.*)$', 'Way.WalkBL("%1")', 12, "way", 1, true);
+--DeleteTrigger("way_walk_OVER");
 
 
 Way.SetPlace = function(strPlace)
