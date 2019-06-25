@@ -25,9 +25,9 @@ LearnSkill.waySleep = "e;sleep";
 
 Common.CreateTrigger("LearnSkillSkillLearnAction", "^你共请教了(\\S*)次$", 'LearnSkill.SkillLearnAction("%1")', 12, "xue", 0, true);
 Common.CreateTrigger("LearnSkillGoTeacher", "^你一觉醒来，精神抖擞地活动了几下手脚。$", "LearnSkill.GoTeacher()", 12, "xue", 0, true);
-Common.CreateTrigger("LearnSkillTrigger1", "^│ *□(\\S+ *\\S+) *│ *([\\S+]*) *│ *(.{8})│ *([0-9]*)\\.[0-9]{1,2}\\+?│(.+?) +.*$", 'LearnSkill.SkillsSet("%1", "%2", "%4", "%5")', 12, "learn", 0);
-Common.CreateTrigger("LearnSkillTrigger2", "^│ *(\\S+ *\\S+) *│ *([\\S+]*) *│ *(.{8})│ *([0-9]*)\\.[0-9]{1,2}\\+?│(.+?) +.*$", 'LearnSkill.SkillsSet("%1", "%2", "%4", "%5")', 12, "learn", 0);
-Common.CreateTrigger("LearnSkillTrigger3", "^│ *(\\S+ *\\S+) *│ *([\\S+]*) *│ *(.{8})│ *([0-9]*)\\.[0-9]{1,2}\\+?│\\-     │", 'LearnSkill.SkillsSet("%1", "%2", "%4", "9999")', 12, "learn", 0);
+Common.CreateTrigger("LearnSkillTrigger1", "^│ *□(\\S+ *\\S+) *│ *([\\S+]*) *│ *(.{8})│ *([0-9]*)\\.[0-9]{1,2}\\+?│(.+?) +.*$", 'LearnSkill.SkillsSet("%1", "%2", "%4", "%5")', 12, "learn", 0, 0, "", 0, 80);
+Common.CreateTrigger("LearnSkillTrigger2", "^│ *(\\S+ *\\S+) *│ *([\\S+]*) *│ *(.{8})│ *([0-9]*)\\.[0-9]{1,2}\\+?│(.+?) +.*$", 'LearnSkill.SkillsSet("%1", "%2", "%4", "%5")', 12, "learn", 0, 0, "", 0);
+Common.CreateTrigger("LearnSkillTrigger3", "^│ *(\\S+ *\\S+) *│ *([\\S+]*) *│ *(.{8})│ *([0-9]*)\\.[0-9]{1,2}\\+?│\\-     │", 'LearnSkill.SkillsSet("%1", "%2", "%4", "9999")', 12, "learn", 0, 0, "", 0);
 Common.CreateTrigger("LearnLevelup", "^你的「(\\S+)」进步了！$", 'LearnSkill.SkillLevelup("%1");', 12, "learn", 0);
 
 LearnSkill.levelupCallback = nil;
@@ -67,6 +67,7 @@ LearnSkill.SkillCreate = function(index)
 end
 
 LearnSkill.SkillsSet = function(name, id, level, max)
+	--Note("技能:" .. name .. " 等级:" .. level .. "最大:" .. max);
 	if LearnSkill.arrSkills[name] == nil then
 		LearnSkill.arrSkills[name] = {};
 		LearnSkill.nSkillIndexMax = LearnSkill.nSkillIndexMax + 1;
